@@ -1,0 +1,98 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/Mobile%20Friendly%20Orion')))()
+local Player = game.Players.LocalPlayer
+
+-- Create UI Window
+local Window = OrionLib:MakeWindow({
+    Name = "ForzaHub The Rake",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "OrionTest",
+    IntroText = "Loading Script..."
+})
+
+-- Notification when loaded
+OrionLib:MakeNotification({
+    Name = "Logged In!",
+    Content = "Enjoy " .. Player.Name .. "!",
+    Image = "rbxassetid://4483345998",
+    Time = 5
+})
+
+-- Main Tab
+local Tab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Fullbright Toggle
+local FullBright = false
+
+Tab:AddToggle({
+    Name = "Fullbright",
+    Default = false,
+    Callback = function(Value)
+        FullBright = Value
+
+        if FullBright then
+            spawn(function()
+                while FullBright do
+                    local success, response = pcall(function()
+                        game.Lighting.Brightness = 2
+                        game.Lighting.ClockTime = 12
+                        game.Lighting.FogEnd = 100000
+                        game.Lighting.GlobalShadows = false
+                        game.Lighting.OutdoorAmbient = Color3.new(1, 1, 1)
+                    end)
+
+                    if not success then
+                        OrionLib:MakeNotification({
+                            Name = "Fullbright Failed",
+                            Content = "Error: " .. tostring(response),
+                            Image = "rbxassetid://4483345998",
+                            Time = 3
+                        })
+                    end
+
+                    wait(1)
+                end
+            end)
+        end
+    end
+})
+
+-- NoFog Toggle
+local NoFog = false
+
+Tab:AddToggle({
+    Name = "NoFog",
+    Default = false,
+    Callback = function(Value)
+        NoFog = Value
+
+        if NoFog then
+            spawn(function()
+                while NoFog do
+                    local success, response = pcall(function()
+                        game.Lighting.FogStart = 0
+                        game.Lighting.FogEnd = 100000
+                    end)
+
+                    if not success then
+                        OrionLib:MakeNotification({
+                            Name = "NoFog Failed",
+                            Content = "Error: " .. tostring(response),
+                            Image = "rbxassetid://4483345998",
+                            Time = 3
+                        })
+                    end
+
+                    wait(1)
+                end
+            end)
+        end
+    end
+})
+
+-- Initialize UI
+OrionLib:Init()
