@@ -3,7 +3,7 @@ local Player = game.Players.LocalPlayer
 
 -- Create UI Window
 local Window = OrionLib:MakeWindow({
-    Name = "ForzaHub The Rake",
+    Name = "ForzaHub TheRake",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "OrionTest",
@@ -38,11 +38,11 @@ Tab:AddToggle({
             spawn(function()
                 while FullBright do
                     local success, response = pcall(function()
-                        game.Lighting.Brightness = 2
-                        game.Lighting.ClockTime = 14
-                        game.Lighting.FogEnd = 100000
-                        game.Lighting.GlobalShadows = false
-                        game.Lighting.OutdoorAmbient = Color3.new(1, 1, 1)
+                        local lighting = game.Lighting
+                        lighting.Brightness = 2
+                        lighting.ClockTime = 14
+                        lighting.GlobalShadows = false
+                        lighting.OutdoorAmbient = Color3.new(1, 1, 1)
                     end)
 
                     if not success then
@@ -54,7 +54,7 @@ Tab:AddToggle({
                         })
                     end
 
-                    wait(0.5) -- Loop frequently to override game lighting
+                    wait(0.25)
                 end
             end)
         end
@@ -74,8 +74,9 @@ Tab:AddToggle({
             spawn(function()
                 while NoFog do
                     local success, response = pcall(function()
-                        game.Lighting.FogStart = 0
-                        game.Lighting.FogEnd = 100000
+                        local lighting = game.Lighting
+                        lighting.FogStart = 0
+                        lighting.FogEnd = 100000
                     end)
 
                     if not success then
@@ -87,7 +88,7 @@ Tab:AddToggle({
                         })
                     end
 
-                    wait(0.5) -- Keep overriding fog
+                    wait(0.25)
                 end
             end)
         end
